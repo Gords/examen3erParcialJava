@@ -24,13 +24,13 @@
   <!-- Load AngularJS -->
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script type="text/javascript">
-    var app = angular.module("FruitManagement", []);
+    var app = angular.module("ConsoleManagement", []);
 
     //Controller Part
-    app.controller("FruitManagementController", function ($scope, $http) {
+    app.controller("ConsoleManagementController", function ($scope, $http) {
 
       //Initialize page with default data which is blank in this example
-      $scope.fruits = [];
+      $scope.consoles = [];
 
       $scope.form = {
         id: -1,
@@ -41,21 +41,21 @@
       //Now load the data from server
       _refreshPageData();
 
-      //HTTP POST/PUT methods for add/edit fruits
+      //HTTP POST/PUT methods for add/edit Consoles
       $scope.update = function () {
         var method = "";
         var url = "";
         var data = {};
         if ($scope.form.id == -1) {
-          //Id is absent so add fruits - POST operation
+          //Id is absent so add consoles - POST operation
           method = "POST";
-          url = '/api/fruits';
+          url = '/api/consoles';
           data.name = $scope.form.name;
           data.stock = $scope.form.stock;
         } else {
           //If Id is present, it's edit operation - PUT operation
           method = "PUT";
-          url = '/api/fruits/' + $scope.form.id;
+          url = '/api/consoles/' + $scope.form.id;
           data.name = $scope.form.name;
           data.stock = $scope.form.stock;
         }
@@ -70,29 +70,29 @@
         }).then(_success, _error);
       };
 
-      //HTTP DELETE- delete fruit by id
-      $scope.remove = function (fruit) {
+      //HTTP DELETE- delete console by id
+      $scope.remove = function (console) {
         $http({
           method: 'DELETE',
-          url: '/api/fruits/' + fruit.id
+          url: '/api/consoles/' + console.id
         }).then(_success, _error);
       };
 
-      //In case of edit fruits, populate form with fruit data
-      $scope.edit = function (fruit) {
-        $scope.form.name = fruit.name;
-        $scope.form.stock = fruit.stock;
-        $scope.form.id = fruit.id;
+      //In case of edit consoles, populate form with console data
+      $scope.edit = function (console) {
+        $scope.form.name = console.name;
+        $scope.form.stock = console.stock;
+        $scope.form.id = console.id;
       };
 
       /* Private Methods */
-      //HTTP GET- get all fruits collection
+      //HTTP GET- get all consoles collection
       function _refreshPageData() {
         $http({
           method: 'GET',
-          url: '/api/fruits'
+          url: '/api/consoles'
         }).then(function successCallback(response) {
-          $scope.fruits = response.data;
+          $scope.consoles = response.data;
         }, function errorCallback(response) {
           console.log(response.statusText);
         });
@@ -116,17 +116,11 @@
     });
   </script>
 </head>
-<body ng-app="FruitManagement" ng-controller="FruitManagementController">
+<body ng-app="ConsoleManagement" ng-controller="ConsoleManagementController">
 
 <div class="container">
 
-  <h1>Vert.x Crud Application</h1>
-
-  <p>This application demonstrates how a Vert.x application implement a CRUD endpoint to manage <em>fruits</em>.
-    This management interface invokes the CRUD service endpoint, that interact with a PosgreSQL database using JDBC
-    .</p>
-
-  <h3>Add/Edit a fruit</h3>
+  <h1>Add/Edit a console</h1>
 
   <form ng-submit="update()">
     <div class="row">
@@ -136,17 +130,17 @@
     <input type="submit" value="Save"/>
   </form>
 
-  <h3>Fruit List</h3>
+  <h3>Console List</h3>
 
   <div class="row">
     <div class="col-2">Name</div>
     <div class="col-2">Stock</div>
   </div>
 
-  <div class="row" ng-repeat="fruit in fruits">
-    <div class="col-2">{{ fruit.name }}</div>
-    <div class="col-2">{{ fruit.stock }}</div>
-    <div class="col-8"><a ng-click="edit( fruit )" class="btn">Edit</a> <a ng-click="remove( fruit )" class="btn">Remove</a></div>
+  <div class="row" ng-repeat="console in consoles">
+    <div class="col-2">{{ console.name }}</div>
+    <div class="col-2">{{ console.stock }}</div>
+    <div class="col-8"><a ng-click="edit( console )" class="btn">Edit</a> <a ng-click="remove( console )" class="btn">Remove</a></div>
   </div>
 
 </div>

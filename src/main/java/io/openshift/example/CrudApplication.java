@@ -29,13 +29,13 @@ public class CrudApplication extends AbstractVerticle {
     // enable parsing of request bodies
     router.route().handler(BodyHandler.create());
     // perform validation of the :id parameter
-    router.route("/api/fruits/:id").handler(this::validateId);
+    router.route("/api/consoles/:id").handler(this::validateId);
     // implement a basic REST CRUD mapping
-    router.get("/api/fruits").handler(this::retrieveAll);
-    router.post("/api/fruits").handler(this::addOne);
-    router.get("/api/fruits/:id").handler(this::getOne);
-    router.put("/api/fruits/:id").handler(this::updateOne);
-    router.delete("/api/fruits/:id").handler(this::deleteOne);
+    router.get("/api/consoles").handler(this::retrieveAll);
+    router.post("/api/consoles").handler(this::addOne);
+    router.get("/api/consoles/:id").handler(this::getOne);
+    router.put("/api/consoles/:id").handler(this::updateOne);
+    router.delete("/api/consoles/:id").handler(this::deleteOne);
 
     // health check
     router.get("/health").handler(rc -> rc.response().end("OK"));
@@ -45,7 +45,7 @@ public class CrudApplication extends AbstractVerticle {
 
     // Create a JDBC client
     JDBCClient jdbc = JDBCClient.createShared(vertx, new JsonObject()
-      .put("url", "jdbc:postgresql://" + getEnv("MY_DATABASE_SERVICE_HOST", "localhost") + ":5432/my_data")
+      .put("url", "jdbc:postgresql://" + getEnv("MY_DATABASE_SERVICE_HOST", "localhost") + ":5432/GamerSA")
       .put("driver_class", "org.postgresql.Driver")
       .put("user", getEnv("DB_USERNAME", "user"))
       .put("password", getEnv("DB_PASSWORD", "password"))
@@ -70,7 +70,7 @@ public class CrudApplication extends AbstractVerticle {
 
   private void validateId(RoutingContext ctx) {
     try {
-      ctx.put("fruitId", Long.parseLong(ctx.pathParam("id")));
+      ctx.put("consoleId", Long.parseLong(ctx.pathParam("id")));
       // continue with the next handler in the route
       ctx.next();
     } catch (NumberFormatException e) {
@@ -95,7 +95,7 @@ public class CrudApplication extends AbstractVerticle {
     HttpServerResponse response = ctx.response()
       .putHeader("Content-Type", "application/json");
 
-    store.read(ctx.get("fruitId"))
+    store.read(ctx.get("consoleId"))
       .subscribe(
         json -> response.end(json.encodePrettily()),
         err -> {
@@ -128,7 +128,7 @@ public class CrudApplication extends AbstractVerticle {
       .subscribe(
         json ->
           ctx.response()
-            .putHeader("Location", "/api/fruits/" + json.getLong("id"))
+            .putHeader("Location", "/api/consoles/" + json.getLong("id"))
             .putHeader("Content-Type", "application/json")
             .setStatusCode(201)
             .end(json.encodePrettily()),
@@ -150,13 +150,13 @@ public class CrudApplication extends AbstractVerticle {
       return;
     }
 
-    store.update(ctx.get("fruitId"), item)
+    store.update(ctx.get("consoleId"), item)
       .subscribe(
         () ->
           ctx.response()
             .putHeader("Content-Type", "application/json")
             .setStatusCode(200)
-            .end(item.put("id", ctx.<Long>get("fruitId")).encodePrettily()),
+            .end(item.put("id", ctx.<Long>get("consoleId")).encodePrettily()),
         err -> writeError(ctx, err)
       );
   }
@@ -172,7 +172,7 @@ public class CrudApplication extends AbstractVerticle {
   }
 
   private void deleteOne(RoutingContext ctx) {
-    store.delete(ctx.get("fruitId"))
+    store.delete(ctx.get("consoleId"))
       .subscribe(
         () ->
           ctx.response()

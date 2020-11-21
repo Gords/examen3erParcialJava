@@ -33,7 +33,7 @@ public class OpenShiftIT {
 
   @Before
   public void setup() {
-    RestAssured.baseURI = route.toString() + "api/fruits";
+    RestAssured.baseURI = route.toString() + "api/consoles";
 
     String s = get().asString();
     JsonArray array = new JsonArray(s);
@@ -45,14 +45,14 @@ public class OpenShiftIT {
   }
 
   @Test
-  public void testRetrieveWhenNoFruits() {
+  public void testRetrieveWhenNoConsoles() {
     get()
       .then()
       .assertThat().statusCode(200).body(is("[ ]"));
   }
 
   @Test
-  public void testWithOneFruit() {
+  public void testWithOneConsole() {
     given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -75,7 +75,7 @@ public class OpenShiftIT {
   }
 
   @Test
-  public void testCreatingAFruit() {
+  public void testCreatingAConsole() {
     Response response = given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -97,7 +97,7 @@ public class OpenShiftIT {
   }
 
   @Test
-  public void testCreatingAFruitWithoutAName() {
+  public void testCreatingAConsoleWithoutAName() {
     Response response = given()
       .body(new JsonObject().put("stock", 5).encode())
       .post()
@@ -105,11 +105,11 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles");
   }
 
   @Test
-  public void testCreatingAFruitWithoutAStock() {
+  public void testCreatingAConsoleWithoutAStock() {
     Response response = given()
       .body(new JsonObject().put("name", "Banana").encode())
       .post()
@@ -117,11 +117,11 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles");
   }
 
   @Test
-  public void testCreatingAFruitWithStockLowerThanZero() {
+  public void testCreatingAConsoleWithStockLowerThanZero() {
     Response response = given()
       .body(new JsonObject().put("name", "Banana").put("stock",-1).encode())
       .post()
@@ -129,11 +129,11 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles");
   }
 
   @Test
-  public void testCreatingAFruitWithAnId() {
+  public void testCreatingAConsoleWithAnId() {
     Response response = given()
       .body(new JsonObject().put("stock", 5).put("name", "apple").put("id", 2456).encode())
       .post()
@@ -141,7 +141,7 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles");
   }
 
   @Test
@@ -153,7 +153,7 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles");
   }
 
   @Test
@@ -165,11 +165,11 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles");
   }
 
   @Test
-  public void testEditingAFruit() {
+  public void testEditingAConsole() {
     Response response = given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -201,7 +201,7 @@ public class OpenShiftIT {
   }
 
   @Test
-  public void testEditingAnUnknownFruit() {
+  public void testEditingAnUnknownConsole() {
     Response response = given()
       .body(new JsonObject().put("name", "pear").put("stock", 10).encode())
       .put("/" + 22222222)
@@ -209,11 +209,11 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/22222222");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/22222222");
   }
 
   @Test
-  public void testEditingAnUnknownFruitWithStringId() {
+  public void testEditingAnUnknownConsoleWithStringId() {
     Response response = given()
       .body(new JsonObject().put("name", "pear").put("stock", 10).encode())
       .put("/999999")
@@ -221,11 +221,11 @@ public class OpenShiftIT {
 
     JsonObject result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/999999");
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/999999");
   }
 
   @Test
-  public void testEditingAFruitWithEmptyPayload() {
+  public void testEditingAConsoleWithEmptyPayload() {
     Response response = given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -241,11 +241,11 @@ public class OpenShiftIT {
 
     result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/" + id);
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/" + id);
   }
 
   @Test
-  public void testEditingAFruitWithBrokenPayload() {
+  public void testEditingAConsoleWithBrokenPayload() {
     Response response = given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -261,11 +261,11 @@ public class OpenShiftIT {
 
     result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/" + id);
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/" + id);
   }
 
   @Test
-  public void testEditingAFruitWithInvalidPayload() {
+  public void testEditingAConsoleWithInvalidPayload() {
     Response response = given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -281,11 +281,11 @@ public class OpenShiftIT {
 
     result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/" + id);
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/" + id);
   }
 
   @Test
-  public void testEditingAFruitWithoutAStock() {
+  public void testEditingAConsoleWithoutAStock() {
     Response response = given()
       .body(new JsonObject().put("name", "Banana").put("stock", 5).encode())
       .post()
@@ -300,11 +300,11 @@ public class OpenShiftIT {
 
     result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/" + id);
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/" + id);
   }
 
   @Test
-  public void testEditingAFruitWithStockLowerThanZero() {
+  public void testEditingAConsoleWithStockLowerThanZero() {
     Response response = given()
       .body(new JsonObject().put("name", "Banana").put("stock", 5).encode())
       .post()
@@ -319,11 +319,11 @@ public class OpenShiftIT {
 
     result = new JsonObject(response.asString());
     assertThat(result.getString("error")).isNotBlank();
-    assertThat(result.getString("path")).isEqualTo("/api/fruits/" + id);
+    assertThat(result.getString("path")).isEqualTo("/api/consoles/" + id);
   }
 
   @Test
-  public void testDeletingAFruit() {
+  public void testDeletingAConsole() {
     Response response = given()
       .body(new JsonObject().put("name", "apple").put("stock", 5).encode())
       .post()
@@ -341,7 +341,7 @@ public class OpenShiftIT {
   }
 
   @Test
-  public void testDeletingAnUnknownFruit() {
+  public void testDeletingAnUnknownConsole() {
     delete("/99999")
       .then().assertThat().statusCode(404);
 

@@ -2,7 +2,7 @@
 
 Para ejecutar la aplicación localmente, debe iniciar una instancia de PosgreSQL local. Por ejemplo, puede usar Docker de la siguiente manera:
 ```bash
-docker run --name some-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=my_data -p 5432:5432 -d postgres
+docker run --name docker-postgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=GamerSA -p 5432:5432 -d postgres
 ```
 
 Por defecto (para desarrollo local) la aplicación usa:
