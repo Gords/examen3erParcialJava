@@ -35,7 +35,10 @@
       $scope.form = {
         id: -1,
         name: "",
-        stock: 0
+        stock: 0,
+        discReader: "no",
+        storage: "",
+        coreCount: 0
       };
 
       //Now load the data from server
@@ -52,12 +55,18 @@
           url = '/api/consoles';
           data.name = $scope.form.name;
           data.stock = $scope.form.stock;
+          data.discReader = $scope.form.discReader;
+          data.storage = $scope.form.storage;
+          data.coreCount = $scope.form.coreCount;
         } else {
           //If Id is present, it's edit operation - PUT operation
           method = "PUT";
           url = '/api/consoles/' + $scope.form.id;
           data.name = $scope.form.name;
           data.stock = $scope.form.stock;
+          data.discReader = $scope.form.discReader;
+          data.storage = $scope.form.storage;
+          data.coreCount = $scope.form.coreCount;
         }
 
         $http({
@@ -83,6 +92,9 @@
         $scope.form.name = console.name;
         $scope.form.stock = console.stock;
         $scope.form.id = console.id;
+        $scope.form.discReader = console.discReader;
+        $scope.form.storage = console.storage;
+        $scope.form.coreCount = console.coreCount;
       };
 
       /* Private Methods */
@@ -112,20 +124,26 @@
         $scope.form.name = "";
         $scope.form.stock = 0;
         $scope.form.id = -1;
+        $scope.discReader= "no";
+        $scope.storage = "";
+        $scope.coreCount = 0;
       }
     });
   </script>
 </head>
 <body ng-app="ConsoleManagement" ng-controller="ConsoleManagementController">
 
-<div class="container">
+<div>
 
-  <h1>Add/Edit a console</h1>
+  <h1>Agregar/Editar consola</h1>
 
   <form ng-submit="update()">
     <div class="row">
-      <div class="col-6"><input type="text" placeholder="Name" ng-model="form.name" size="60"/></div>
-      <div class="col-6"><input type="number" placeholder="Stock" ng-model="form.stock" size="60"/></div>
+      <div class="col-2"><input type="text" placeholder="Nombre" ng-model="form.name" /></div>
+      <div class="col-1"><input type="number" placeholder="Stock" ng-model="form.stock" /></div>
+      <div class="col-1"><input type="text" placeholder="Lector" ng-model="form.discReader"/></div>
+      <div class="col-1"><input type="text" placeholder="Espacio (GB)" ng-model="form.storage" /></div>
+      <div class="col-1"><input type="number" placeholder="Cores" ng-model="form.coreCount" /></div>
     </div>
     <input type="submit" value="Save"/>
   </form>
@@ -133,14 +151,21 @@
   <h3>Console List</h3>
 
   <div class="row">
-    <div class="col-2">Name</div>
-    <div class="col-2">Stock</div>
+    <div class="col-2">Nombre</div>
+    <div class="col-1">Stock</div>
+    <div class="col-1">Lector</div>
+    <div class="col-1">Espacio</div>
+    <div class="col-1">Cores</div>
+    <div class="col-2"></div>
   </div>
 
   <div class="row" ng-repeat="console in consoles">
     <div class="col-2">{{ console.name }}</div>
-    <div class="col-2">{{ console.stock }}</div>
-    <div class="col-8"><a ng-click="edit( console )" class="btn">Edit</a> <a ng-click="remove( console )" class="btn">Remove</a></div>
+    <div class="col-1">{{ console.stock }}</div>
+    <div class="col-1">{{ console.discReader }}</div>
+    <div class="col-1">{{ console.storage }}</div>
+    <div class="col-1">{{ console.coreCount }}</div>
+    <div class="col-2"><a ng-click="edit( console )" class="btn">Edit</a> <a ng-click="remove( console )" class="btn">Remove</a></div>
   </div>
 
 </div>

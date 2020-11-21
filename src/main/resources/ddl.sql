@@ -3,18 +3,16 @@ CREATE TABLE IF NOT EXISTS public.products (
   id        SERIAL PRIMARY KEY,
   name      VARCHAR(40) NOT NULL,
   stock     BIGINT,
-  discReader BOOLEAN,
-  storage VARCHAR(40) NOT NULL,
+  discReader VARCHAR(40) NOT NULL,
+  storage BIGINT,
   core_count integer NOT NULL
 );
 
-DELETE FROM products;
+INSERT INTO public.products (name, stock, discReader, storage, core_count) values ('Playstation 5', 10, 'si', 854, 8);
+INSERT INTO public.products (name, stock, discReader, storage, core_count) values ('Xbox Series X', 10, 'si', 1000, 8);
+INSERT INTO public.products (name, stock, discReader, storage, core_count) values ('Nintendo Switch', 10, 'si', 16, 8);
 
-INSERT INTO products (name, stock, discReader, storage, core_count) values ('Playstation 5', 10, true, '854GB', 8);
-INSERT INTO products (name, stock, discReader, storage, core_count) values ('Xbox Series X', 10, true, '1000gb', 8);
-INSERT INTO products (name, stock, discReader, storage, core_count) values ('Nintendo Switch', 10, false, '16gb', 8);
-
-ALTER TABLE products
+ALTER TABLE public.products
     OWNER to "user";
 
 CREATE TABLE IF NOT EXISTS public.pedidos
