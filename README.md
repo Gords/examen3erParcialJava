@@ -10,7 +10,7 @@ Por defecto (para desarrollo local) la aplicación usa:
 * `5432` como puerto
 * `user` como username
 * `password` como password
-* `my_data` como nombre de la base de datos
+* `GamerSA` como nombre de la base de datos
 
 Luego ejecute la aplicación usando: `mvn compile vertx:run`. La aplicación se ejecuta en: http://localhost:8080.
 
