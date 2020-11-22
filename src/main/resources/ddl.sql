@@ -5,12 +5,12 @@ CREATE TABLE IF NOT EXISTS public.products (
   stock     BIGINT,
   discReader VARCHAR(40) NOT NULL,
   storage BIGINT,
-  core_count integer NOT NULL
+  coreCount BIGINT NOT NULL
 );
 
-INSERT INTO public.products (name, stock, discReader, storage, core_count) values ('Playstation 5', 10, 'si', 854, 8);
-INSERT INTO public.products (name, stock, discReader, storage, core_count) values ('Xbox Series X', 10, 'si', 1000, 8);
-INSERT INTO public.products (name, stock, discReader, storage, core_count) values ('Nintendo Switch', 10, 'si', 16, 8);
+INSERT INTO public.products (name, stock, discReader, storage, coreCount) values ('Playstation 5', 10, 'si', 854, 8);
+INSERT INTO public.products (name, stock, discReader, storage, coreCount) values ('Xbox Series X', 10, 'si', 1000, 8);
+INSERT INTO public.products (name, stock, discReader, storage, coreCount) values ('Nintendo Switch', 10, 'si', 16, 8);
 
 ALTER TABLE public.products
     OWNER to "user";
