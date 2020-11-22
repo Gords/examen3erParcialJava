@@ -24,26 +24,19 @@ public class CrudApplication extends AbstractVerticle {
 
   @Override
   public void start() {
-    // Create a router object.
     Router router = Router.router(vertx);
-    // enable parsing of request bodies
     router.route().handler(BodyHandler.create());
-    // perform validation of the :id parameter
     router.route("/api/consoles/:id").handler(this::validateId);
-    // implement a basic REST CRUD mapping
     router.get("/api/consoles").handler(this::retrieveAll);
     router.post("/api/consoles").handler(this::addOne);
     router.get("/api/consoles/:id").handler(this::getOne);
     router.put("/api/consoles/:id").handler(this::updateOne);
     router.delete("/api/consoles/:id").handler(this::deleteOne);
 
-    // health check
     router.get("/health").handler(rc -> rc.response().end("OK"));
-    // web interface
     router.get().handler(StaticHandler.create());
 
 
-    // Create a JDBC client
     JDBCClient jdbc = JDBCClient.createShared(vertx, new JsonObject()
       .put("url", "jdbc:postgresql://" + getEnv("MY_DATABASE_SERVICE_HOST", "localhost") + ":5432/GamerSA")
       .put("driver_class", "org.postgresql.Driver")
@@ -61,7 +54,6 @@ public class CrudApplication extends AbstractVerticle {
 
   private Single<HttpServer> initHttpServer(Router router, JDBCClient client) {
     store = new JdbcProductStore(client);
-    // Create the HTTP server and pass the "accept" method to the request handler.
     return vertx
       .createHttpServer()
       .requestHandler(router)
@@ -71,7 +63,6 @@ public class CrudApplication extends AbstractVerticle {
   private void validateId(RoutingContext ctx) {
     try {
       ctx.put("consoleId", Long.parseLong(ctx.pathParam("id")));
-      // continue with the next handler in the route
       ctx.next();
     } catch (NumberFormatException e) {
       error(ctx, 400, "invalid id: " + e.getCause());
