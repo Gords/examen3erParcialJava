@@ -38,7 +38,7 @@ public class CrudApplication extends AbstractVerticle {
 
 
     JDBCClient jdbc = JDBCClient.createShared(vertx, new JsonObject()
-      .put("url", "jdbc:postgresql://" + getEnv("MY_DATABASE_SERVICE_HOST", "localhost") + ":5432/GamerSA")
+      .put("url", "jdbc:postgresql://" + getEnv("MY_DATABASE_SERVICE_HOST", "DATABASE_URL") + ":5432/GamerSA")
       .put("driver_class", "org.postgresql.Driver")
       .put("user", getEnv("DB_USERNAME", "user"))
       .put("password", getEnv("DB_PASSWORD", "password"))
